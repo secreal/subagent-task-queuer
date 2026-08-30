@@ -9,6 +9,18 @@ Use this skill to start the delegation phase. Invoke it with the companion skill
 must govern the work, for example `$subagent-start $ce-debug` or
 `$subagent-start $ce-work`.
 
+## Invocation
+
+A valid invocation must include both a companion skill and a concrete task:
+
+```text
+$subagent-start <companion-skill> <task description>
+```
+
+For example: `$subagent-start $ce-work "implement CSV export in reports/"`.
+If either the companion skill or task is missing, ask for the missing value and do
+not start local implementation or pretend that a subagent was created.
+
 ## Start contract
 
 - Read the repository root `AGENTS.md`, continuity notes, and the companion skill
@@ -39,6 +51,20 @@ At minimum, persist one record with `task_id`, `repository_root`, `companion_ski
 `satisfied` when the main path is complete; set it back to `pending` only when a new
 main gate is explicitly established.
 
+## Mandatory spawn
+
+Once the invocation is valid and the bounded task contract is written, call
+`multi_agent_v1__spawn_agent` immediately with a self-contained message that names
+the task, companion skill, repository/path boundary, required checks, exclusions, and
+handoff format. Do not merely describe the delegation in chat. A successful start
+must record the returned agent id/nickname and report the queue entry. If the spawn
+tool errors or is unavailable, report `not spawned` with the error and keep the task
+out of `running`; never claim success without an agent id.
+
+Persist the record as `pending_spawn` before the spawn call, then update it to
+`running` only after the tool returns successfully. A minimal lifecycle is:
+`pending_spawn` → `running` → `handoff`/`takeover` → `done` or `blocked`.
+
 ## Companion skill
 
 The companion skill is part of the task contract, not a suggestion. Pass its exact
@@ -48,7 +74,7 @@ implementation versus review or verification.
 
 ## Waiting model
 
-After spawning, leave the subagent running in the background and return to the main
+After a successful spawn, leave the subagent running in the background and return to the main
 critical path. Do not reflexively call `wait_agent`; only wait when the main path is
 blocked on a result. The delegated task remains in the queue until the main path
 reaches its requested gate.

@@ -8,7 +8,7 @@ description: Compatibility router for the split subagent-start and subagent-take
 This legacy entrypoint is retained so existing references keep working. The workflow
 is now split into two explicit phases:
 
-- Use `$subagent-start <companion-skill>` to delegate bounded work under a named
+- Use `$subagent-start <companion-skill> <task>` to delegate bounded work under a named
   skill, persist the queue, and automatically take it over when the main path's
   gate is reached.
 - Use `$subagent-takeover <task-name-or-agent-id>` to select one queued task, audit

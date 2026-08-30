@@ -1,4 +1,4 @@
 interface:
   display_name: "Subagent Task Queuer (Router)"
   short_description: "Route subagent start and takeover phases"
-  default_prompt: "Use $subagent-start with a companion skill to delegate work, or $subagent-takeover to take over one queued task."
+  default_prompt: "Use $subagent-start with a companion skill and concrete task to delegate work, or $subagent-takeover to recover one queued task."

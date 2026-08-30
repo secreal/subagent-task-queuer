@@ -2,7 +2,7 @@
 
 This legacy skill now routes the workflow to two explicit skills:
 
-- `$subagent-start <companion-skill>` starts bounded delegated work, persists its
+- `$subagent-start <companion-skill> <task>` starts bounded delegated work, persists its
   queue, and automatically takes it over when the main critical path reaches its
   gate.
 - `$subagent-takeover <task-name-or-agent-id>` manually takes over one selected task

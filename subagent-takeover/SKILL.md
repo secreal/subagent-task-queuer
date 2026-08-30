@@ -5,9 +5,9 @@ description: Take over one selected delegated task from its isolated worktree, a
 
 # Subagent Takeover
 
-Use this skill only when the user or the main workflow selects one delegated task,
-for example `$subagent-takeover <task-name-or-agent-id>`. It is the takeover phase
-of `$subagent-start`, not a new delegation.
+Use this skill when the main workflow automatically selects a ready delegated task,
+or when the user selects one explicitly with `$subagent-takeover <task-name-or-agent-id>`.
+It is the takeover phase of `$subagent-start`, not a new delegation.
 
 ## Takeover contract
 
@@ -15,6 +15,10 @@ of `$subagent-start`, not a new delegation.
   and every companion skill named by that contract before editing.
 - Rebuild the queue from actual agent and worktree state. Resolve the exact task,
   agent id, branch, worktree, intended base, repository, and write scope.
+- Read the durable queue record from `${CODEX_HOME}/subagent-queues/` (or
+  `~/.codex/subagent-queues/` when `CODEX_HOME` is unset), then reconcile it with
+  the live agent and worktree state. Mark the selected task as `takeover` before
+  editing and persist transitions after validation.
 - If the agent is still running, request a concise handoff and stop it before
   becoming the sole writer. Do not take over an ambiguous task or a task whose
   worktree cannot be identified.
@@ -24,6 +28,9 @@ of `$subagent-start`, not a new delegation.
   from the existing implementation; do not restart from scratch.
 - Keep edits limited to the inherited task scope. Leave unrelated WIP, other
   worktrees, and other delegated tasks untouched.
+- If this takeover was automatic, do not ask the user to confirm the selection when
+  the queue has one ready task or a deterministic priority/order. Manual selection
+  remains available for ambiguous or early takeover requests.
 
 ## Mandatory pre-edit report
 
@@ -56,5 +63,5 @@ either is empty.
   assumptions, and the next safe action.
 
 If the same external blocker persists through three meaningful checks and no safe
-progress is possible, report the blocker. Do not invent completion or silently widen
-the task scope.
+progress is possible, report the blocker and leave the durable task record in
+`blocked`/`handoff` state. Do not invent completion or silently widen the task scope.

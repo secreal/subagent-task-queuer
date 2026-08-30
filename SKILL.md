@@ -7,6 +7,12 @@ description: Orchestrate Compound Engineering work by delegating bounded side ta
 
 Use this skill at the start of a coding session or before a new engineering task when the preferred workflow is: delegate first, keep the critical path moving, then audit and finish unfinished subagent work. Pair the actual implementation with the relevant `compound-engineering:*` skill such as `ce-debug`, `ce-work`, `ce-code-review`, or `lfg`.
 
+## Invocation refresh
+
+- Treat every invocation as a fresh workflow-contract refresh, including a repeated invocation in the same session.
+- Re-read and apply the current version of this skill before planning, delegating, or taking over work. New or changed rules in the current version override assumptions from an earlier invocation.
+- Rebuild the queue from the actual agent and worktree state on every refresh; do not carry a stale `running`, `done`, or `handoff` status forward.
+
 ## Operating contract
 
 - Work from the repository root and read the repository's `AGENTS.md` plus the user's continuity notes before making changes.
@@ -57,6 +63,21 @@ Every subagent handoff and takeover report must include:
 - completed units versus remaining units;
 - tests/checks run and their results;
 - blockers, assumptions, and the next safe action.
+
+At the start of every takeover, show this compact report before editing:
+
+```text
+Takeover:
+- Task: <human-readable task name>
+- Source: <agent id>, <branch>, <worktree>, <status>
+- Completed by subagent: <completed units and verification evidence>
+- Continuing now: <remaining units the main agent will implement>
+- Untouched: <unrelated WIP or files intentionally left alone>
+- Blockers/assumptions: <if any>
+```
+
+The `Completed by subagent` and `Continuing now` lines are mandatory even when
+either list is empty. Never summarize a takeover only as “continuing the task.”
 
 If a subagent is interrupted, its worktree is the source of truth. If a subagent has no usable worktree or the same external blocker persists through three meaningful checks, report the blocker instead of inventing progress. Keep the task in the queue until it is genuinely complete or the user changes its scope.
 

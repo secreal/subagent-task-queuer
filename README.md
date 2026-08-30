@@ -13,3 +13,7 @@ limits delegated work to explicit scopes, and validates a worktree before takeov
 When the main path is free, takeover starts immediately even if the subagent has not
 finished. It treats “unlimited” as a logical queue constrained by available agent
 capacity; it does not spawn beyond that capacity.
+
+Every invocation refreshes the workflow contract and queue from current state. Every
+takeover begins with a report naming the task, what the subagent completed, and what
+the main agent will continue.

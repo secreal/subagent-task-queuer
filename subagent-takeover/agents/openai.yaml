@@ -1,0 +1,4 @@
+interface:
+  display_name: "Subagent Takeover"
+  short_description: "Take over and finish one queued task"
+  default_prompt: "Use $subagent-takeover to inspect one delegated task's worktree, finish its remaining work, and validate it."

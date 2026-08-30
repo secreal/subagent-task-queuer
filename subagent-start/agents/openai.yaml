@@ -1,0 +1,4 @@
+interface:
+  display_name: "Subagent Start"
+  short_description: "Start queued work under a companion skill"
+  default_prompt: "Use $subagent-start with the relevant skill to delegate a bounded task and keep it queued while the main path continues."

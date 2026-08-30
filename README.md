@@ -1,19 +1,11 @@
-# Subagent Task Queuer
+# Subagent Task Queuer (Compatibility Router)
 
-Codex skill for a delegated-work queue that keeps the main critical path moving and
-lets the main agent safely take over unfinished subagent work from its isolated
-worktree.
+This legacy skill now routes the workflow to two explicit skills:
 
-Invoke it as `$subagent-task-queuer` before starting a new engineering task. Pair it
-with the relevant Compound Engineering skill, such as `ce-debug`, `ce-work`,
-`ce-code-review`, or `lfg`.
+- `$subagent-start <companion-skill>` starts bounded delegated work and leaves it
+  queued while the main critical path continues.
+- `$subagent-takeover <task-name-or-agent-id>` takes over one selected task from its
+  isolated worktree.
 
-The skill keeps task status human-readable, preserves unrelated work in progress,
-limits delegated work to explicit scopes, and validates a worktree before takeover.
-When the main path is free, takeover starts immediately even if the subagent has not
-finished. It treats “unlimited” as a logical queue constrained by available agent
-capacity; it does not spawn beyond that capacity.
-
-Every invocation refreshes the workflow contract and queue from current state. Every
-takeover begins with a report naming the task, what the subagent completed, and what
-the main agent will continue.
+The two phase skills contain the active contracts and should be preferred for new
+work.

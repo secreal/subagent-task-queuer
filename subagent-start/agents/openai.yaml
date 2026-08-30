@@ -1,4 +1,4 @@
 interface:
   display_name: "Subagent Start"
-  short_description: "Start queued work under a companion skill"
-  default_prompt: "Use $subagent-start with a companion skill and concrete task to spawn delegated work and auto-take it over after the main gate."
+  short_description: "Dispatch work to main or a new subagent"
+  default_prompt: "Use $subagent-start with a task to let the main agent work when idle, or spawn a subagent under compound-engineering:lfg when the main path is active."

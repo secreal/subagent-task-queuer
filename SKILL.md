@@ -16,6 +16,7 @@ Use this skill at the start of a coding session or before a new engineering task
 - Treat the queue as logical backlog, not as permission to exceed the host's active-agent limit. Keep queued work recorded with a task name, agent id, worktree, status, and dependency.
 - A delegated task must not silently broaden its scope. Unless the user explicitly authorizes shipping, default side-task instructions are: no commit, push, merge, deploy, production mutation, message sending, or service restart.
 - Continue useful non-overlapping primary work while side agents run. Do not redo a side task merely because its agent has not reported yet.
+- When the main path reaches its requested gate and the main agent is free, start takeover immediately; do not wait for the subagent to finish or report completion.
 
 ## Queue status
 
@@ -36,7 +37,7 @@ Do not claim an agent is done from a generic waiting state. When progress is req
 
 ## Takeover protocol
 
-Take over a subagent task only when the main critical-path work is complete at its requested gate (for example, merged/deployed) or the user explicitly asks for takeover. Then:
+Take over a subagent task as soon as the main critical-path work is complete at its requested gate (for example, merged/deployed) or the user explicitly asks for takeover. Do not wait for the subagent's final response. Then:
 
 1. Identify the exact agent, branch, worktree, repositories, and task contract. If the agent is still running, request a concise handoff or stop it through the available agent control tool before becoming the sole writer.
 2. Inspect the worktree without discarding anything: `git status`, branch/upstream, recent commits, diff against the intended base, untracked files, and any plan or test artifacts.

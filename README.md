@@ -10,5 +10,6 @@ with the relevant Compound Engineering skill, such as `ce-debug`, `ce-work`,
 
 The skill keeps task status human-readable, preserves unrelated work in progress,
 limits delegated work to explicit scopes, and validates a worktree before takeover.
-It treats “unlimited” as a logical queue constrained by the available agent capacity;
-it does not spawn beyond that capacity.
+When the main path is free, takeover starts immediately even if the subagent has not
+finished. It treats “unlimited” as a logical queue constrained by available agent
+capacity; it does not spawn beyond that capacity.
